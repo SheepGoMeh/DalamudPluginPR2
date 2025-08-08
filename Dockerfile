@@ -1,4 +1,4 @@
-FROM python:3.10-alpine as build
+FROM python:3.10-alpine AS build
 
 ENV PIP_DISABLE_PIP_VERSION_CHECK=1 \
     POETRY_HOME="/opt/poetry" \
@@ -15,11 +15,11 @@ RUN apk add --no-cache poetry
 # Install package dependencies
 COPY pyproject.toml poetry.lock ./
 RUN poetry env use /usr/local/bin/python3 && \
-    poetry install --no-root --no-dev
+    poetry install --no-root --without dev
 
 # Install package
 COPY src ./src
-RUN poetry install --no-dev
+RUN poetry install --without dev
 
 FROM python:3.10-alpine
 
